@@ -1,0 +1,207 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = "file:./dev.db"
+}
+
+model User {
+  id                 String           @id @default(uuid())
+  username           String           @unique
+  password           String
+  name               String
+  role               String
+  affiliation        String
+  email              String?
+  phone              String?
+  createdAt          DateTime         @default(now())
+  updatedAt          DateTime         @updatedAt
+  lastLogin          DateTime?
+  updatedCases       Case[]           @relation("UpdatedBy")
+  createdCases       Case[]           @relation("CreatedBy")
+  monthlyProgressRecords MonthlyProgress[]
+  changedCases       CaseChangeLog[]
+  createdAnnualTargets AnnualTarget[] @relation("AnnualTargetCreatedBy")
+  updatedAnnualTargets AnnualTarget[] @relation("AnnualTargetUpdatedBy")
+
+  @@index([username])
+  @@index([affiliation])
+}
+
+model Case {
+  id                          String    @id @default(uuid())
+  caseNumber                  String    @unique
+  affiliation                 String
+  status                      String
+  caseName                    String
+  plaintiffName               String
+  defendantName               String
+  opponentType                String
+  caseType                    String
+  filingDate                  DateTime
+  trialConclusionDate         DateTime?
+  executionConclusionDate     DateTime?
+  litigationStatus            String
+  causeOfAction               String
+  disputeResolutionMethod     String
+  trialInstitution            String
+  currentStage                String
+  caseDomain                  String
+  claimAmount                 Float
+  principalAmount             Float
+  caseBalance                 Float
+  annualClosureTarget         String?
+  annualLossPreventionTarget  Float
+  annualRealizedAmount        Float
+  totalRealizedAmount         Float
+  badDebtProvision            String
+  riskExposure                Float
+  projectTeamMembers          String
+  litigationCosts             Float
+  lawFirmSituation            String
+  agencyFees                  Float
+  otherExpensesSituation      String
+  otherExpenses               Float
+  collateralSituation         String
+  basicCaseFacts              String
+  disposalMeasuresDescription String
+  monthlyProgressSituation    String?
+  createdAt                   DateTime  @default(now())
+  updatedAt                   DateTime  @updatedAt
+  createdById                 String
+  updatedById                 String
+  updatedBy                   User      @relation("UpdatedBy", fields: [updatedById], references: [id])
+  createdBy                   User      @relation("CreatedBy", fields: [createdById], references: [id])
+  progressRecords             MonthlyProgress[]
+  changeLogs                  CaseChangeLog[]
+  caseAnnualTargets           CaseAnnualTarget[]
+  snapshots                   CaseSnapshot[]
+
+  @@index([caseNumber])
+  @@index([affiliation])
+  @@index([status])
+  @@index([filingDate])
+  @@index([caseType])
+}
+
+// 月度进展记录表
+model MonthlyProgress {
+  id          String   @id @default(uuid())
+  content     String
+  createdAt   DateTime @default(now())
+  createdById String
+  caseId      String
+  case        Case     @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  createdBy   User     @relation(fields: [createdById], references: [id])
+
+  @@index([caseId])
+  @@index([createdById])
+}
+
+// 案件变更日志表
+model CaseChangeLog {
+  id               String   @id @default(uuid())
+  caseId           String
+  changedById      String
+  changeTime       DateTime @default(now())
+  changedFields    String
+  oldValues        String
+  newValues        String
+  changeDescription String?
+  case             Case     @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  changedBy        User     @relation(fields: [changedById], references: [id])
+
+  @@index([caseId])
+  @@index([changedById])
+  @@index([changeTime])
+}
+
+// 年度目标总表
+model AnnualTarget {
+  id                        String    @id @default(uuid())
+  year                      Int       @unique
+  totalCaseClosureTarget    Int
+  totalAmountReductionTarget Float
+  totalLossPreventionTarget  Float
+  createdAt                 DateTime  @default(now())
+  updatedAt                 DateTime  @updatedAt
+  createdById               String
+  updatedById               String
+  createdBy                 User      @relation("AnnualTargetCreatedBy", fields: [createdById], references: [id])
+  updatedBy                 User      @relation("AnnualTargetUpdatedBy", fields: [updatedById], references: [id])
+  affiliationTargets        AffiliationTarget[]
+  targetExecutions          AnnualTargetExecution[]
+  caseAnnualTargets         CaseAnnualTarget[]
+}
+
+// 隶属单位年度目标表
+model AffiliationTarget {
+  id                     String    @id @default(uuid())
+  annualTargetId         String
+  affiliation            String
+  caseClosureTarget      Int
+  amountReductionTarget  Float
+  lossPreventionTarget   Float
+  createdAt              DateTime  @default(now())
+  updatedAt              DateTime  @updatedAt
+  annualTarget           AnnualTarget  @relation(fields: [annualTargetId], references: [id], onDelete: Cascade)
+
+  @@index([annualTargetId])
+  @@index([affiliation])
+}
+
+// 年度目标执行表
+model AnnualTargetExecution {
+  id                     String    @id @default(uuid())
+  annualTargetId         String
+  affiliation            String
+  year                   Int
+  caseClosureActual      Int
+  amountReductionActual  Float
+  lossPreventionActual   Float
+  createdAt              DateTime  @default(now())
+  updatedAt              DateTime  @updatedAt
+  annualTarget           AnnualTarget  @relation(fields: [annualTargetId], references: [id], onDelete: Cascade)
+
+  @@index([annualTargetId])
+  @@index([affiliation])
+  @@index([year])
+}
+
+// 案件年度指标关联表（用于标记哪些案件被纳入哪个年度的指标统计）
+model CaseAnnualTarget {
+  id                          String    @id @default(uuid())
+  caseId                      String
+  annualTargetId              String
+  year                        Int
+  isIncludedInTarget          Boolean   @default(false) // 是否纳入指标统计
+  caseClosureTarget           String    // 该案件在本年度的结案指标
+  amountReductionTarget       Float     // 该案件在本年度的标的压降指标
+  lossPreventionTarget        Float     // 该案件在本年度的防损指标
+  createdAt                   DateTime  @default(now())
+  updatedAt                   DateTime  @updatedAt
+  case                        Case      @relation(fields: [caseId], references: [id], onDelete: Cascade)
+  annualTarget                AnnualTarget @relation(fields: [annualTargetId], references: [id], onDelete: Cascade)
+
+  @@index([caseId])
+  @@index([annualTargetId])
+  @@index([year])
+  @@index([caseId, year])
+  @@unique([caseId, annualTargetId]) // 确保一个案件在一个年度目标中只有一条记录
+}
+
+// 案件年度快照表（记录每年年底的案件数据快照）
+model CaseSnapshot {
+  id         String   @id @default(uuid())
+  caseId     String
+  year       Int
+  snapshotAt DateTime @default(now())
+  data       Json
+  case       Case     @relation(fields: [caseId], references: [id], onDelete: Cascade)
+
+  @@index([caseId])
+  @@index([year])
+  @@unique([caseId, year])
+}

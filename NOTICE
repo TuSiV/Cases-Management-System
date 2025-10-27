@@ -1,0 +1,31 @@
+CMS — Third-Party Notices and Attributions
+
+Product: 案件管理系统 (CMS)
+Version: 1.0.0
+Copyright: © 2025 CMS authors. All rights reserved.
+
+Summary
+- 本软件在生产环境使用的第三方依赖及其许可证清单已生成于 `THIRD_PARTY_LICENSES.json`（位于项目根目录）。
+- 该清单包含依赖名称、版本、许可证类型及来源信息，用于合规审计与对外交付时的归档。
+- 若对外分发二进制或源码，请在分发包中一并包含本 NOTICE 与 `THIRD_PARTY_LICENSES.json`，并按各许可证义务履行。
+
+Compliance Guidance（合规指引）
+- MIT / BSD / ISC：在分发时保留许可证文本与版权声明；允许闭源商业使用。
+- Apache-2.0：在分发时保留许可证文本与本 NOTICE；如上游项目附带其 NOTICE，需保留并合并；允许闭源商业使用。
+- LGPL / GPL / AGPL / SSPL：存在传播或网络使用义务，可能与闭源目标冲突。当前项目未使用此类许可证的依赖；如未来引入，需重新评估。
+- 仅在公司服务器内部部署且不向外分发软件时，通常不触发分发义务；但 AGPL 对网络交互用户存在源代码提供义务，仍应避免。
+
+Direct Dependencies（主要直接依赖示例）
+- next、react、react-dom、antd、@ant-design/icons、axios、dayjs、bcryptjs、jsonwebtoken、swr、recharts、xlsx、@prisma/client、node-cron、zod
+  以上依赖均为常见的宽松许可（MIT/Apache-2.0/ISC 等）。实际许可以 `THIRD_PARTY_LICENSES.json` 为准。
+
+Operational Notes（操作说明）
+- 更新依赖后，请重新运行依赖许可证扫描以更新 `THIRD_PARTY_LICENSES.json`。
+- 若需对外交付安装包或镜像，请在交付物中包含：本 `NOTICE`、`THIRD_PARTY_LICENSES.json`，以及必要时的各依赖许可证文本。
+- 若引入新依赖，优先选择 MIT / BSD / Apache-2.0 / ISC 等宽松许可；避免 AGPL/SSPL 等可能影响闭源商用的许可证。
+
+How to Rebuild the Inventory（重建清单）
+- 在项目根目录执行：
+  npx license-checker --production --json | Out-File -Encoding utf8 THIRD_PARTY_LICENSES.json
+
+End of NOTICE
