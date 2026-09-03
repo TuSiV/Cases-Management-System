@@ -20,14 +20,14 @@ async function createSupervisorUser() {
         where: { username: 'supervisor' },
         data: {
           role: 'viewer',
-          affiliation: '总部',
+          affiliation: 'REGION_1',
           name: '查看员'
         }
       });
       console.log('用户更新成功:', updatedUser);
     } else {
       // 加密密码
-      const password = await bcrypt.hash('supervisor123', 10);
+      const password = await bcrypt.hash('changeme', 10);
       
       // 创建新用户
       const newUser = await prisma.user.create({
@@ -36,7 +36,7 @@ async function createSupervisorUser() {
           password: password,
           name: '查看员',
           role: 'viewer',
-          affiliation: '总部'
+          affiliation: 'REGION_1'
         }
       });
       console.log('用户创建成功:', newUser);

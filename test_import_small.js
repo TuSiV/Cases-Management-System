@@ -6,7 +6,7 @@ function testExcelImport() {
   try {
     console.log('=== 开始测试Excel导入 ===');
     
-    const filePath = 'E:\\OneDrive\\桌面\\案件导入模板_20251015_172017.xlsx';
+    const filePath = process.env.EXCEL_FILE_PATH || './data/cases_import.xlsx';
     
     // 检查文件是否存在
     if (!fs.existsSync(filePath)) {

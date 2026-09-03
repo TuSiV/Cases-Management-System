@@ -21,7 +21,7 @@ async function main() {
     
     if (!adminUser) {
       console.log('  - 未找到管理员用户，正在创建...');
-      const hashedPassword = await bcrypt.hash('admin123', 10);
+      const hashedPassword = await bcrypt.hash('changeme', 10);
       
       adminUser = await prisma.user.create({
         data: {
@@ -29,7 +29,7 @@ async function main() {
           password: hashedPassword,
           name: '管理员',
           role: 'ADMIN',
-          affiliation: '总部'
+          affiliation: 'REGION_1'
         }
       });
       console.log('  - ✅ 管理员用户创建成功');
@@ -39,7 +39,7 @@ async function main() {
     
     // 2. 读取Excel文件
     console.log('\n2. 读取Excel文件...');
-    const filePath = 'E:\\OneDrive\\桌面\\案件导入模板_20251015_172017.xlsx';
+    const filePath = process.env.EXCEL_FILE_PATH || './data/cases_import.xlsx';
     
     try {
       const workbook = XLSX.readFile(filePath);

@@ -5,17 +5,17 @@ const prisma = new PrismaClient();
 
 // 中文转拼音的映射表
 const pinyinMap = {
-  '总部': 'zongbu',
-  '东北': 'dongbei',
-  '中南': 'zhongnan',
-  '云贵': 'yungui',
-  '华北': 'huabei',
-  '实业': 'shiye',
-  '华南': 'huanan',
-  '玖隆': 'jiulong',
-  '华东': 'huadong',
-  '西南': 'xinan',
-  '西北': 'xibei'
+  'REGION_1': 'zongbu',
+  'REGION_2': 'dongbei',
+  'REGION_3': 'zhongnan',
+  'REGION_4': 'yungui',
+  'REGION_5': 'huabei',
+  'REGION_6': 'shiye',
+  'REGION_7': 'huanan',
+  'REGION_8': 'jiulong',
+  'REGION_9': 'huadong',
+  'REGION_10': 'xinan',
+  'REGION_11': 'xibei'
 };
 
 async function updateUsers() {
@@ -23,8 +23,8 @@ async function updateUsers() {
     // 获取所有用户
     const users = await prisma.user.findMany();
 
-    // 准备更新密码（123456）
-    const defaultPassword = await bcrypt.hash('123456', 10);
+    // 准备更新密码
+    const defaultPassword = await bcrypt.hash('changeme', 10);
     let updatedCount = 0;
 
     // 更新每个用户
@@ -80,7 +80,7 @@ async function updateUsers() {
     console.log(`\n总共更新了 ${users.length} 个用户。`);
     console.log('用户名已修改为隶属的全拼');
     console.log('姓名已修改为"隶属+公司"');
-    console.log('密码已统一设置为123456');
+    console.log('密码已统一重置');
     
   } catch (error) {
     console.error('更新用户数据时出错：', error);

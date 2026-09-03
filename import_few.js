@@ -8,7 +8,7 @@ async function importFewRecords() {
   
   try {
     // 读取Excel
-    const filePath = 'E:\\OneDrive\\桌面\\案件导入模板_20251015_172017.xlsx';
+    const filePath = process.env.EXCEL_FILE_PATH || './data/cases_import.xlsx';
     const workbook = XLSX.readFile(filePath);
     const worksheet = workbook.Sheets[workbook.SheetNames[0]];
     const jsonData = XLSX.utils.sheet_to_json(worksheet);
@@ -24,10 +24,10 @@ async function importFewRecords() {
       const tempUser = await prisma.user.create({
         data: {
           username: 'temp_user',
-          password: 'temp123',
+          password: 'changeme',
           name: '临时用户',
           role: 'viewer',
-          affiliation: '总部'
+          affiliation: 'REGION_1'
         }
       });
       user = tempUser;
@@ -46,7 +46,7 @@ async function importFewRecords() {
             caseName: row['案件名称'],
             plaintiffName: row['原告名称'],
             defendantName: row['被告名称'],
-            affiliation: row['隶属'] || '总部',
+            affiliation: row['隶属'] || 'REGION_1',
             status: row['状态'] || '进行中',
             opponentType: row['对方性质'] || '企业',
             caseType: row['案件类型'] || '合同纠纷',

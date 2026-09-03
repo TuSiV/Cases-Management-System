@@ -22,7 +22,7 @@ const userRoleMatch = utilsContent.match(/enum UserRole {[\s\S]*?}/);
 const affiliationMatch = utilsContent.match(/enum Affiliation {[\s\S]*?}/);
 
 let UserRole = { ADMIN: 'admin', USER: 'user', VIEWER: 'viewer' };
-let Affiliation = { HEADQUARTERS: '总部', BRANCH: '分部' };
+let Affiliation = { HEADQUARTERS: 'REGION_1', BRANCH: 'REGION_2' };
 
 // 尝试从文件中提取枚举值
 if (userRoleMatch) {
@@ -62,28 +62,28 @@ function hasViewPermission(userRole, userAffiliation, caseAffiliation) {
 // 测试不同场景
 console.log('\n=== 权限测试结果 ===');
 
-// 测试1: VIEWER角色，分部隶属，查看总部案件
-const test1 = hasViewPermission(UserRole.VIEWER, '分部', '总部');
-console.log('测试1 - VIEWER角色(分部)查看总部案件:', test1 ? '✓ 有权限' : '✗ 无权限');
+// 测试1: VIEWER角色，REGION_2隶属，查看REGION_1案件
+const test1 = hasViewPermission(UserRole.VIEWER, 'REGION_2', 'REGION_1');
+console.log('测试1 - VIEWER角色(REGION_2)查看REGION_1案件:', test1 ? '✓ 有权限' : '✗ 无权限');
 
-// 测试2: VIEWER角色，分部隶属，查看分部案件
-const test2 = hasViewPermission(UserRole.VIEWER, '分部', '分部');
-console.log('测试2 - VIEWER角色(分部)查看分部案件:', test2 ? '✓ 有权限' : '✗ 无权限');
+// 测试2: VIEWER角色，REGION_2隶属，查看REGION_2案件
+const test2 = hasViewPermission(UserRole.VIEWER, 'REGION_2', 'REGION_2');
+console.log('测试2 - VIEWER角色(REGION_2)查看REGION_2案件:', test2 ? '✓ 有权限' : '✗ 无权限');
 
-// 测试3: VIEWER角色，总部隶属，查看分部案件
-const test3 = hasViewPermission(UserRole.VIEWER, '总部', '分部');
-console.log('测试3 - VIEWER角色(总部)查看分部案件:', test3 ? '✓ 有权限' : '✗ 无权限');
+// 测试3: VIEWER角色，REGION_1隶属，查看REGION_2案件
+const test3 = hasViewPermission(UserRole.VIEWER, 'REGION_1', 'REGION_2');
+console.log('测试3 - VIEWER角色(REGION_1)查看REGION_2案件:', test3 ? '✓ 有权限' : '✗ 无权限');
 
-// 测试4: USER角色，分部隶属，查看总部案件
-const test4 = hasViewPermission(UserRole.USER, '分部', '总部');
-console.log('测试4 - USER角色(分部)查看总部案件:', test4 ? '✓ 有权限' : '✗ 无权限');
+// 测试4: USER角色，REGION_2隶属，查看REGION_1案件
+const test4 = hasViewPermission(UserRole.USER, 'REGION_2', 'REGION_1');
+console.log('测试4 - USER角色(REGION_2)查看REGION_1案件:', test4 ? '✓ 有权限' : '✗ 无权限');
 
-// 测试5: USER角色，分部隶属，查看分部案件
-const test5 = hasViewPermission(UserRole.USER, '分部', '分部');
-console.log('测试5 - USER角色(分部)查看分部案件:', test5 ? '✓ 有权限' : '✗ 无权限');
+// 测试5: USER角色，REGION_2隶属，查看REGION_2案件
+const test5 = hasViewPermission(UserRole.USER, 'REGION_2', 'REGION_2');
+console.log('测试5 - USER角色(REGION_2)查看REGION_2案件:', test5 ? '✓ 有权限' : '✗ 无权限');
 
 // 测试6: ADMIN角色，任意隶属，查看任意案件
-const test6 = hasViewPermission(UserRole.ADMIN, '分部', '总部');
+const test6 = hasViewPermission(UserRole.ADMIN, 'REGION_2', 'REGION_1');
 console.log('测试6 - ADMIN角色查看任意案件:', test6 ? '✓ 有权限' : '✗ 无权限');
 
 // 创建Prisma客户端来检查数据库中的实际案件
@@ -106,7 +106,7 @@ async function checkActualCases() {
     
     // 对于每个案件，检查testviewer用户是否有权限查看
     allCases.forEach(caseItem => {
-      const hasPermission = hasViewPermission(UserRole.VIEWER, '分部', caseItem.affiliation);
+      const hasPermission = hasViewPermission(UserRole.VIEWER, 'REGION_2', caseItem.affiliation);
       console.log(`案件 ${caseItem.caseNumber} (${caseItem.affiliation}): testviewer用户${hasPermission ? '有权限' : '无权限'}查看`);
     });
     

@@ -46,17 +46,17 @@ export enum CaseDomain {
 
 // 隶属枚举
 export enum Affiliation {
-  HEADQUARTERS = '总部',
-  NORTHEAST = '东北',
-  CENTRAL_SOUTH = '中南',
-  YUNNAN_GUIZHOU = '云贵',
-  NORTH_CHINA = '华北',
-  INDUSTRY = '实业',
-  SOUTH_CHINA = '华南',
-  JIULONG = '玖隆',
-  EAST_CHINA = '华东',
-  SOUTHWEST = '西南',
-  NORTHWEST = '西北'
+  HEADQUARTERS = 'REGION_1',
+  NORTHEAST = 'REGION_2',
+  CENTRAL_SOUTH = 'REGION_3',
+  YUNNAN_GUIZHOU = 'REGION_4',
+  NORTH_CHINA = 'REGION_5',
+  INDUSTRY = 'REGION_6',
+  SOUTH_CHINA = 'REGION_7',
+  JIULONG = 'REGION_8',
+  EAST_CHINA = 'REGION_9',
+  SOUTHWEST = 'REGION_10',
+  NORTHWEST = 'REGION_11'
 }
 
 // 隶属代码映射

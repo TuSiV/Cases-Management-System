@@ -5,7 +5,7 @@ const prisma = new PrismaClient();
 async function importAllCases() {
   try {
     // Excel文件路径
-    const excelPath = 'E:\\OneDrive\\桌面\\案件导入模板_20251015_172017.xlsx';
+    const excelPath = process.env.EXCEL_FILE_PATH || './data/cases_import.xlsx';
     
     // 读取Excel文件
     const workbook = XLSX.readFile(excelPath);
@@ -24,15 +24,15 @@ async function importAllCases() {
       const tempUser = await prisma.user.create({
         data: {
           username: 'import_temp_admin',
-          password: 'temp123456', // 实际应用中应使用加密密码
+          password: 'changeme', // 实际应用中应使用加密密码
           name: '导入临时管理员',
           role: 'ADMIN',
           department: '技术部',
           position: '系统管理员',
-          contactNumber: '13800138000',
-          email: 'temp@example.com',
+          contactNumber: '13800000000',
+          email: 'admin@example.com',
           status: 'ACTIVE',
-          affiliation: '总部'
+          affiliation: 'REGION_1'
         }
       });
       user = tempUser;
@@ -52,7 +52,7 @@ async function importAllCases() {
             caseName: row['案件名称'],
             plaintiffName: row['原告名称'],
             defendantName: row['被告名称'],
-            affiliation: row['隶属'] || '总部',
+            affiliation: row['隶属'] || 'REGION_1',
             status: row['状态'] || '进行中',
             opponentType: row['对方性质'] || '企业',
             caseType: row['案件类型'] || '合同纠纷',

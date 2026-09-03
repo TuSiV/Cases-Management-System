@@ -6,7 +6,7 @@ const prisma = new PrismaClient()
 
 async function main() {
   // 创建管理员用户
-  const adminPassword = await bcrypt.hash('admin123', 10)
+  const adminPassword = await bcrypt.hash(process.env.ADMIN_DEFAULT_PASSWORD || 'changeme', 10)
   await prisma.user.upsert({
     where: { username: 'admin' },
     update: {},
@@ -15,14 +15,14 @@ async function main() {
       password: adminPassword,
       name: '系统管理员',
       role: UserRole.ADMIN,
-      affiliation: '总部'
+      affiliation: 'REGION_1'
     }
   })
 
   // 为每个隶属创建一个普通用户
-  const userPassword = await bcrypt.hash('user123', 10)
+  const userPassword = await bcrypt.hash(process.env.USER_DEFAULT_PASSWORD || 'changeme', 10)
   
-  const affiliations = ['总部', '东北', '中南', '云贵', '华北', '实业', '华南', '玖隆', '华东', '西南', '西北']
+  const affiliations = ['REGION_1', 'REGION_2', 'REGION_3', 'REGION_4', 'REGION_5', 'REGION_6', 'REGION_7', 'REGION_8', 'REGION_9', 'REGION_10', 'REGION_11']
   
   for (const affiliation of affiliations) {
     const username = `user_${affiliation}`

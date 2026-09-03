@@ -151,5 +151,5 @@ async function importExcelDirect(filePath) {
 }
 
 // 执行导入
-const excelFilePath = 'E:\\OneDrive\\桌面\\案件导入模板_20251015_172017.xlsx';
+const excelFilePath = process.env.EXCEL_FILE_PATH || './data/cases_import.xlsx';
 importExcelDirect(excelFilePath);

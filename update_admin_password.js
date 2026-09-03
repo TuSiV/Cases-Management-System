@@ -15,7 +15,7 @@ async function updateAdminPassword() {
     
     // 如果有用户，选择第一个用户作为管理员用户进行更新
     if (allUsers.length > 0) {
-      const adminPassword = await bcrypt.hash('admin123', 10);
+      const adminPassword = await bcrypt.hash('changeme', 10);
       
       // 将第一个用户更新为管理员用户（注意：角色使用小写的'admin'与UserRole枚举保持一致）
       await prisma.user.update({
@@ -27,16 +27,16 @@ async function updateAdminPassword() {
           username: 'admin',
           name: '系统管理员',
           role: 'admin',
-          affiliation: '总部'
+          affiliation: 'REGION_1'
         }
       });
       
       console.log(`\n已将第一个用户设置为管理员账户：`);
       console.log(`用户名: admin`);
-      console.log(`密码: admin123`);
+      console.log(`密码: changeme`);
       console.log(`姓名: 系统管理员`);
       console.log(`角色: admin`);
-      console.log(`隶属: 总部`);
+      console.log(`隶属: REGION_1`);
     } else {
       console.log('数据库中没有用户，请先初始化数据');
     }

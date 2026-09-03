@@ -131,5 +131,5 @@ async function testImportExcel(filePath) {
 }
 
 // 执行测试
-const excelFilePath = 'E:\\OneDrive\\桌面\\案件导入模板_20251015_172017.xlsx';
+const excelFilePath = process.env.EXCEL_FILE_PATH || './data/cases_import.xlsx';
 testImportExcel(excelFilePath);

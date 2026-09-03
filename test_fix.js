@@ -26,7 +26,7 @@ async function testFix() {
       const testCase = await prisma.case.create({
         data: {
           caseNumber: 'TEST0001',
-          affiliation: '总部',
+          affiliation: 'REGION_1',
           status: '未结案',
           caseName: '测试案件',
           plaintiffName: '测试原告',
@@ -79,7 +79,7 @@ async function testFix() {
       const testCase = await prisma.case.create({
         data: {
           caseNumber: 'TEST0002',
-          affiliation: '总部',
+          affiliation: 'REGION_1',
           status: '未结案',
           caseName: '测试案件2',
           plaintiffName: '测试原告2',

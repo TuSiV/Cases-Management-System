@@ -1062,7 +1062,7 @@ const TargetsPage = () => {
                   />
                 </Col>
                 <Col xs={24} md={8}>
-                  <Text strong style={{ marginTop: 6 }}>2.2 集团指标（重大案件）</Text>
+                  <Text strong style={{ marginTop: 6 }}>2.2 REGION_1指标（重大案件）</Text>
                   <MetricGroupCard
                     column={1}
                     items={[

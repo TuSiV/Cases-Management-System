@@ -7,7 +7,7 @@ const path = require('path');
 // 读取.env文件获取JWT密钥
 const envPath = path.join(__dirname, '.env');
 const envContent = fs.readFileSync(envPath, 'utf8');
-const jwtSecret = envContent.match(/NEXTAUTH_SECRET=(.+)/)?.[1] || 'default-secret-key';
+const jwtSecret = envContent.match(/NEXTAUTH_SECRET=(.+)/)?.[1] || 'your-secret-key';
 
 const prisma = new PrismaClient();
 

@@ -7,7 +7,7 @@ const prisma = new PrismaClient();
  * 修改管理员admin的密码
  * @param {string} newPassword - 新密码
  */
-async function changeAdminPassword(newPassword = 'admin123') {
+async function changeAdminPassword(newPassword = 'changeme') {
   try {
     // 查找username为'admin'的用户
     const adminUser = await prisma.user.findUnique({

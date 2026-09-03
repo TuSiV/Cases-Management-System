@@ -2,7 +2,7 @@ const XLSX = require('xlsx');
 const fs = require('fs');
 
 // 测试Excel文件路径
-const excelFilePath = 'E:/OneDrive/桌面/cases_import.xlsx';
+const excelFilePath = process.env.EXCEL_FILE_PATH || './data/cases_import.xlsx';
 
 // 简单的文件检查
 console.log('开始检查Excel文件...');

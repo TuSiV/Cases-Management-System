@@ -184,7 +184,7 @@ async function batchImportFromExcel(excelPath) {
 }
 
 // 执行导入
-const excelFilePath = 'E:/OneDrive/桌面/cases_import.xlsx';
+const excelFilePath = process.env.EXCEL_FILE_PATH || './data/cases_import.xlsx';
 
 console.log('开始执行批量导入脚本...');
 batchImportFromExcel(excelFilePath)

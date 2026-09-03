@@ -18,7 +18,7 @@ async function createAdminUser() {
     }
     
     // 创建新的管理员用户
-    const hashedPassword = await bcrypt.hash('admin123456', 10);
+    const hashedPassword = await bcrypt.hash('changeme', 10);
     
     const adminUser = await prisma.user.create({
       data: {
@@ -26,9 +26,9 @@ async function createAdminUser() {
         password: hashedPassword,
         name: '临时管理员',
         role: 'ADMIN',
-        affiliation: '总部',
-        email: 'admin_temp@example.com',
-        phone: '13800138000'
+        affiliation: 'REGION_1',
+        email: 'admin@example.com',
+        phone: '13800000000'
       }
     });
     

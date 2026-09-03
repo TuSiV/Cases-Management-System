@@ -20,14 +20,14 @@ async function createTestViewerUser() {
         where: { username: 'testviewer' },
         data: {
           role: 'viewer',
-          affiliation: '分部', // 设置为不同的隶属关系
+          affiliation: 'REGION_2', // 设置为不同的隶属关系
           name: '测试查看员'
         }
       });
       console.log('用户更新成功:', updatedUser);
     } else {
       // 加密密码
-      const password = await bcrypt.hash('testviewer123', 10);
+      const password = await bcrypt.hash('changeme', 10);
       
       // 创建新用户
       const newUser = await prisma.user.create({
@@ -36,7 +36,7 @@ async function createTestViewerUser() {
           password: password,
           name: '测试查看员',
           role: 'viewer',
-          affiliation: '分部' // 设置为不同的隶属关系
+          affiliation: 'REGION_2' // 设置为不同的隶属关系
         }
       });
       console.log('用户创建成功:', newUser);

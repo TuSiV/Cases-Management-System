@@ -7,17 +7,17 @@ const prisma = new PrismaClient();
 
 // 隶属代码映射 - 从types文件同步
 const AffiliationCode = {
-  '总部': 'WZ',
-  '东北': 'DB',
-  '中南': 'ZN',
-  '云贵': 'YG',
-  '华北': 'HB',
-  '实业': 'SY',
-  '华南': 'HN',
-  '玖隆': 'JL',
-  '华东': 'HD',
-  '西南': 'XN',
-  '西北': 'XB'
+  'REGION_1': 'WZ',
+  'REGION_2': 'DB',
+  'REGION_3': 'ZN',
+  'REGION_4': 'YG',
+  'REGION_5': 'HB',
+  'REGION_6': 'SY',
+  'REGION_7': 'HN',
+  'REGION_8': 'JL',
+  'REGION_9': 'HD',
+  'REGION_10': 'XN',
+  'REGION_11': 'XB'
 };
 
 // 案件类型代码映射 - 从types文件同步
@@ -116,7 +116,7 @@ async function main() {
   
   try {
     // 读取Excel文件
-    const excelPath = 'E:/OneDrive/桌面/cases_import.xlsx';
+    const excelPath = process.env.EXCEL_FILE_PATH || './data/cases_import.xlsx';
     console.log(`文件路径: ${excelPath}`);
     
     if (!fs.existsSync(excelPath)) {

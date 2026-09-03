@@ -77,11 +77,11 @@ yarn dev
 
 - 管理员账户：
   - 用户名：admin
-  - 密码：admin123
+  - 密码：见环境变量 ADMIN_DEFAULT_PASSWORD
 
-- 普通用户账户（以总部为例）：
-  - 用户名：user_总部
-  - 密码：user123
+- 普通用户账户（以REGION_1为例）：
+  - 用户名：user_REGION_1
+  - 密码：见环境变量 USER_DEFAULT_PASSWORD
 
 ## 项目结构
 
@@ -112,7 +112,7 @@ CMS/
 系统管理的案件数据包括但不限于以下字段：
 
 - 案件号（根据隶属、立案日期、案件类型自动生成）
-- 隶属（总部、东北、中南、云贵、华北、实业、华南、玖隆、华东、西南、西北）
+- 隶属（REGION_1、REGION_2、REGION_3、REGION_4、REGION_5、REGION_6、REGION_7、REGION_8、REGION_9、REGION_10、REGION_11）
 - 结案情况（未结案、审结、执结、调解、和解、撤诉、破产）
 - 案件名称、原告名称、被告名称
 - 对方性质（国有企业、民营企业、个人、行政机关、事业单位、外国主体、其他）
